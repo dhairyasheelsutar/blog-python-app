@@ -1,2 +1,4 @@
 pylint==2.5.3
 unittest2==1.1.0
+paramiko==2.7.1
+scp==0.13.2
