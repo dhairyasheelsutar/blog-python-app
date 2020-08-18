@@ -1,0 +1,36 @@
+{
+    "users": [
+        {
+            "user_id": 1,
+            "name": "Dhiraj",
+            "email": "abc@gmail.com",
+            "password": "abcd",
+            "posts": [
+                {
+                    "post_id": 1,
+                    "title": "Hello world"
+                },
+                {
+                    "post_id": 2,
+                    "title": "New post"
+                }
+            ]
+        },
+        {
+            "user_id": 2,
+            "name": "John",
+            "email": "john.doe@gmail.com",
+            "password": "johndoe",
+            "posts": [
+                {
+                    "post_id": 3,
+                    "title": "My first post"
+                },
+                {
+                    "post_id": 4,
+                    "title": "Lorem ipsum post"
+                }
+            ]
+        }
+    ]
+}
