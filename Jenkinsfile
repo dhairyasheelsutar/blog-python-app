@@ -1,4 +1,3 @@
-Jenkinsfile (Declarative Pipeline)
 pipeline {
     agent any
 
@@ -10,33 +9,41 @@ pipeline {
         stage('Cleanup') {
             steps {
                 sh """
-                    rm -r blob-python-app/
-                    rm -r envs/
+
+                    if [ -d ${WORKSPACE}/blog-python-app/ ]; then
+                        sudo rm -r ${WORKSPACE}/blog-python-app/
+                    fi
+
+                    if [ -d ${WORKSPACE}/envs/ ]; then
+                        sudo rm -r ${WORKSPACE}/envs/
+                    fi
+                   
                 """
             }
         }
         stage('Checkout') {
             steps {
                 sh """
-                    git clone https://github.com/dhairyasheelsutar/blog-python-app.git
+                    sudo git clone https://github.com/dhairyasheelsutar/blog-python-app.git ${WORKSPACE}/blog-python-app/
                 """
             }
         }
         stage('Build') {
             steps {
                 sh """
-                    virtualenv ${WORKSPACE}/envs/venv --python=python3
+                    sudo virtualenv ${WORKSPACE}/envs/venv --python=python3
+                    . ${WORKSPACE}/envs/venv/bin/activate
                     cd ${WORKSPACE}/blog-python-app
-                    pip3 install -r requirements.txt
+                    sudo pip3 install -r requirements.txt
                 """
             }
         }
         stage('Test') {
             steps {
                 sh """
-                    source ${WORKSPACE}/envs/venv/bin/activate
-                    cd ${WORKSPACE}/blog-python-app
-                    python3 -m unittest test/test_app.py
+                    . ${WORKSPACE}/envs/venv/bin/activate
+                    cd ${WORKSPACE}/blog-python-app/test
+                    python3 -m unittest test_app.py
                 """
             }
         }

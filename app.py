@@ -8,7 +8,9 @@ authors = helpers.initialize_db("./data/Database.json")
 if isinstance(authors, FileNotFoundError):
     sys.exit("Please specify valid file path")
 
-while True:
+choices_list = [1, 2, 3, -1]
+
+for choice in choices_list:
 
     # End user message
     print("\nBlog Post app")
@@ -18,8 +20,6 @@ while True:
     print("-1. Exit")
 
     try:
-        choice = int(input("Enter the choice: "))
-
         #Get all the posts from all the users
         if choice == 1:
             all_posts = helpers.get_all_posts(authors)
@@ -29,21 +29,24 @@ while True:
         elif choice == 2:
             all_users = helpers.get_all_users(authors)
             pprint(all_users)
-            user_id = int(input("Enter the user_id from the above list: "))
-            pprint(authors[user_id].get_posts())
+            #user_id = int(input("Enter the user_id from the above list: "))
+
+            #Hardcoding value for jenkins deployment
+            USER_ID = 1
+            pprint(authors[USER_ID].get_posts())
 
         # Authenticate user first and then add new post
         elif choice == 3:
-            email = input("Enter email: ")
-            password = input("Enter password: ")
+            EMAIL = "abc@gmail.com"
+            PASSWORD = "abcd"
 
-            if helpers.validate_email(email):
-                user_id = helpers.authenticate_user(authors, email, password)
-                title = input("Enter title: ")
+            if helpers.validate_email(EMAIL):
+                user_id = helpers.authenticate_user(authors, EMAIL, PASSWORD)
+                TITLE = "Welcome to Quantiphi!"
                 post_id = helpers.generate_post_id(authors)
                 authors[user_id-1].add_post({
                     "post_id": post_id,
-                    "title": title
+                    "title": TITLE
                 })
                 print("Post added successfully!")
             else:
@@ -53,4 +56,5 @@ while True:
 
     except TypeError as cached_exception:
         print(cached_exception)
-    
+    finally:
+        print("Code executed!")
