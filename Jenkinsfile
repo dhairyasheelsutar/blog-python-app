@@ -9,7 +9,10 @@ pipeline {
     stages {
         stage('Cleanup') {
             steps {
-                echo 'Cleanup...'
+                sh """
+                    rm -r blob-python-app/
+                    rm -r envs/
+                """
             }
         }
         stage('Checkout') {
