@@ -3,6 +3,7 @@ pipeline {
 
     environment {
         WORKSPACE = "/home/ubuntu"
+        OTHER_INSTANCE_IP = "172.31.45.6"
     }
 
     stages {
@@ -50,7 +51,12 @@ pipeline {
         stage('Deploy') {
             steps {
                 sh """
+                    scp -r ${WORKSPACE}/blog-python-app/* ${OTHER_INSTANCE_IP}:${WORKSPACE}/blog-python-app/
+                    ssh ${OTHER_INSTANCE_IP}
+                    sudo virtualenv ${WORKSPACE}/envs/venv --python=python3
+                    . ${WORKSPACE}/envs/venv/bin/activate
                     cd ${WORKSPACE}/blog-python-app
+                    sudo pip3 install -r requirements.txt
                     python3 app.py
                 """
             }
