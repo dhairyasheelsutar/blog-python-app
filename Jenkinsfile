@@ -50,10 +50,15 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                sshagent(credentials : ['.ssh/id_rsa.pub']) {
-                    sh "echo pwd"
-                    sh 'ssh -t -t ubuntu@xx.xxx.xx.xx -o StrictHostKeyChecking=no "echo pwd"'
-                }
+                sh """
+                    scp -r ${WORKSPACE}/blog-python-app/* 172.31.45.6:${WORKSPACE}/blog-python-app/
+                    ssh 172.31.45.6
+                    sudo virtualenv ${WORKSPACE}/envs/venv --python=python3
+                    . ${WORKSPACE}/envs/venv/bin/activate
+                    cd ${WORKSPACE}/blog-python-app
+                    sudo pip3 install -r requirements.txt
+                    python3 app.py
+                """
             }
         }
     }
