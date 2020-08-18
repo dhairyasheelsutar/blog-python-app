@@ -51,8 +51,8 @@ pipeline {
         stage('Deploy') {
             steps {
                 sh """
-                    scp -r ${WORKSPACE}/blog-python-app/* 172.31.45.6:${WORKSPACE}/blog-python-app/
-                    ssh 172.31.45.6
+                    sudo scp -i ${WORKSPACE}/dhairyasheel-20942-key-pair.pem -r ${WORKSPACE}/blog-python-app/* ubuntu@${OTHER_INSTANCE_IP}:${WORKSPACE}/blog-python-app/
+                    sudo ssh -i ${WORKSPACE}/dhairyasheel-20942-key-pair.pem -o StrictHostKeyChecking=no ubuntu@${OTHER_INSTANCE_IP}
                     sudo virtualenv ${WORKSPACE}/envs/venv --python=python3
                     . ${WORKSPACE}/envs/venv/bin/activate
                     cd ${WORKSPACE}/blog-python-app
