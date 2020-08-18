@@ -8,5 +8,7 @@ ssh = paramiko.SSHClient()
 ssh.load_system_host_keys()
 ssh.connect(host)
 
+scp = SCPClient(ssh.get_transport())
+
 scp.put('/home/ubuntu/blog-python-app', recursive=True, remote_path='/home/user/blog-python-app')
 scp.close()
